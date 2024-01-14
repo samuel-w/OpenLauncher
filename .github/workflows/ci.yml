@@ -41,3 +41,27 @@ jobs:
         files: |
           src/openlauncher/bin/Release/net7.0/${{ matrix.rid }}/publish/openlauncher
           src/openlauncher/bin/Release/net7.0/${{ matrix.rid }}/publish/openlauncher.exe
+    - name: Prepare to create deb and rpm files
+      run: |
+        mkdir -p .pkg/usr/bin
+        mkdir -p .pkg/usr/share/applications
+        mkdir -p .pkg/usr/share/icons
+        cp src/openlauncher/bin/Release/net7.0/${{ matrix.rid }}/publish/openlauncher .pkg/usr/bin
+        cp src/openlauncher/resources/logo.svg .pkg/usr/icons
+    - uses: jiro4989/build-rpm-action@v2
+      with:
+          package: openlauncher      
+          summary: 'A launcher for automatically downloading the latest, or specific versions of OpenRCT2 and OpenLoco.'
+          package_root: .pkg
+          maintainer: IntelOrca
+          version: ${{ matrix.rid }} # refs/tags/v*.*.*
+          arch: 'x86_64'
+    - uses: jiro4989/build-deb-action@v3
+      with:
+          package: openlauncher
+          package_root: .pkg
+          maintainer: IntelOrca
+          version: ${{ matrix.rid }} # refs/tags/v*.*.*
+          arch: 'noarch'
+          desc: 'A launcher for automatically downloading the latest, or specific versions of OpenRCT2 and OpenLoco.'
+          license: 'MIT'
