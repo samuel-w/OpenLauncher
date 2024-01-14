@@ -56,6 +56,7 @@ jobs:
           name: "OpenLauncher-linux-x64"
       - name: Prepare to create deb and rpm files
         run: |
+          ls -R
           mkdir -p .pkg/usr/bin
           mkdir -p .pkg/usr/share/applications
           mkdir -p .pkg/usr/share/icons
