@@ -47,7 +47,8 @@ jobs:
         mkdir -p .pkg/usr/share/applications
         mkdir -p .pkg/usr/share/icons
         cp src/openlauncher/bin/Release/net7.0/${{ matrix.rid }}/publish/openlauncher .pkg/usr/bin
-        cp src/openlauncher/resources/logo.svg .pkg/usr/icons
+        cp src/openlauncher/resources/logo.svg .pkg/usr/icons/openlauncher.svg
+        cp src/openlauncher/resources/OpenLauncher.desktop .pkg/usr/share/applications.OpenLauncher.desktop
     - uses: jiro4989/build-rpm-action@v2
       with:
           package: openlauncher      
