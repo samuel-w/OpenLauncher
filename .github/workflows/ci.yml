@@ -55,6 +55,7 @@ jobs:
           cp src/openlauncher/resources/logo.svg .pkg/usr/share/icons/openlauncher.svg
           cp src/openlauncher/resources/OpenLauncher.desktop .pkg/usr/share/applications/OpenLauncher.desktop
           cp $GITHUB_WORKSPACE/openlauncher .pkg/usr/bin/openlauncher
+	  chmod +x .pkg/usr/bin/openlauncher
       - name: Create rpm
         uses: jiro4989/build-rpm-action@v2
         with:
