@@ -50,6 +50,10 @@ jobs:
       steps:
       - name: Checkout
         uses: actions/checkout@v3      
+      - name: Get previously created bin
+        uses: actions/download-artifact@v2
+        with:
+          name: "OpenLauncher-${{ matrix.rid }}"
       - name: Prepare to create deb and rpm files
         run: |
           mkdir -p .pkg/usr/bin
@@ -57,11 +61,7 @@ jobs:
           mkdir -p .pkg/usr/share/icons
           cp src/openlauncher/resources/logo.svg .pkg/usr/share/icons/openlauncher.svg
           cp src/openlauncher/resources/OpenLauncher.desktop .pkg/usr/share/applications.OpenLauncher.desktop
-      - name: Get previously created bin
-        uses: actions/download-artifact@v2
-        with:
-          name: openlauncher
-          path: .pkg/usr/bin          
+          cp $GITHUB_WORKSPACE/OpenLauncher-${{ matrix.rid }} .pkg/usr/bin/openlauncher
       - name: Create rpm
         uses: jiro4989/build-rpm-action@v2
         with:
@@ -78,6 +78,6 @@ jobs:
               package_root: .pkg
               maintainer: IntelOrca
               version: ${{github.ref_name}} # refs/tags/v*.*.*
-              arch: 'noarch'
+              arch: 'amd64'
               desc: 'A launcher for automatically downloading the latest, or specific versions of OpenRCT2 and OpenLoco.'
               license: 'MIT'
