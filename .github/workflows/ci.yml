@@ -53,7 +53,7 @@ jobs:
       - name: Get previously created bin
         uses: actions/download-artifact@v2
         with:
-          name: "OpenLauncher-${{ matrix.rid }}"
+          name: "OpenLauncher-linux-x64"
       - name: Prepare to create deb and rpm files
         run: |
           mkdir -p .pkg/usr/bin
@@ -61,7 +61,7 @@ jobs:
           mkdir -p .pkg/usr/share/icons
           cp src/openlauncher/resources/logo.svg .pkg/usr/share/icons/openlauncher.svg
           cp src/openlauncher/resources/OpenLauncher.desktop .pkg/usr/share/applications.OpenLauncher.desktop
-          cp $GITHUB_WORKSPACE/OpenLauncher-${{ matrix.rid }} .pkg/usr/bin/openlauncher
+          cp $GITHUB_WORKSPACE/OpenLauncher-linux-x64 .pkg/usr/bin/openlauncher
       - name: Create rpm
         uses: jiro4989/build-rpm-action@v2
         with:
