@@ -48,14 +48,20 @@ jobs:
       needs: [build]
       if: startsWith(github.ref, 'refs/tags/v')
       steps:
+      - name: Checkout
+        uses: actions/checkout@v3      
       - name: Prepare to create deb and rpm files
         run: |
           mkdir -p .pkg/usr/bin
           mkdir -p .pkg/usr/share/applications
           mkdir -p .pkg/usr/share/icons
-          cp src/openlauncher/bin/Release/net7.0/${{ matrix.rid }}/publish/openlauncher .pkg/usr/bin
           cp src/openlauncher/resources/logo.svg .pkg/usr/share/icons/openlauncher.svg
           cp src/openlauncher/resources/OpenLauncher.desktop .pkg/usr/share/applications.OpenLauncher.desktop
+      - name: Get previously created bin
+        uses: actions/download-artifact@v2
+        with:
+          name: openlauncher
+          path: .pkg/usr/bin          
       - name: Create rpm
         uses: jiro4989/build-rpm-action@v2
         with:
