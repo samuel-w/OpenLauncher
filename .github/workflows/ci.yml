@@ -56,13 +56,12 @@ jobs:
           name: "OpenLauncher-linux-x64"
       - name: Prepare to create deb and rpm files
         run: |
-          ls -R
           mkdir -p .pkg/usr/bin
           mkdir -p .pkg/usr/share/applications
           mkdir -p .pkg/usr/share/icons
           cp src/openlauncher/resources/logo.svg .pkg/usr/share/icons/openlauncher.svg
           cp src/openlauncher/resources/OpenLauncher.desktop .pkg/usr/share/applications.OpenLauncher.desktop
-          cp $GITHUB_WORKSPACE/OpenLauncher .pkg/usr/bin/openlauncher
+          cp $GITHUB_WORKSPACE/openlauncher .pkg/usr/bin/openlauncher
       - name: Create rpm
         uses: jiro4989/build-rpm-action@v2
         with:
