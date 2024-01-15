@@ -43,10 +43,15 @@ jobs:
       steps:
       - name: Checkout
         uses: actions/checkout@v3      
-      - name: Get previously created bin
-        uses: actions/download-artifact@v4
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v3
         with:
-          name: "OpenLauncher-linux-x64"
+          dotnet-version: '7.0.x'
+      - name: Restore
+        run: dotnet restore
+      - name: Publish
+        working-directory: src/openlauncher
+        run: dotnet publish -c Release -r linux-x64 --no-self-contained -p:PublishSingleFile=false # Build to use OS runtime
       - name: Prepare to create deb and rpm files
         run: |
           mkdir -p .pkg/usr/bin
@@ -54,7 +59,7 @@ jobs:
           mkdir -p .pkg/usr/share/icons
           cp src/openlauncher/resources/logo.svg .pkg/usr/share/icons/openlauncher.svg
           cp src/openlauncher/resources/OpenLauncher.desktop .pkg/usr/share/applications/OpenLauncher.desktop
-          cp $GITHUB_WORKSPACE/openlauncher .pkg/usr/bin/openlauncher
+          cp src/openlauncher/bin/Release/net7.0/linux-x64/publish/openlauncher .pkg/usr/bin/openlauncher
           chmod +x .pkg/usr/bin/openlauncher
       - name: Create rpm
         uses: jiro4989/build-rpm-action@v2
@@ -65,7 +70,8 @@ jobs:
               maintainer: IntelOrca
               version: ${{github.ref_name}} # refs/tags/v*.*.*
               arch: 'x86_64'
-              license: 'MIT'              
+              license: 'MIT'
+              requires: dotnet-runtime-7.0
       - name: Create deb
         uses: jiro4989/build-deb-action@v3
         with:
@@ -75,15 +81,12 @@ jobs:
               version: ${{github.ref_name}} # refs/tags/v*.*.*
               arch: 'amd64'
               desc: 'A launcher for automatically downloading the latest, or specific versions of OpenRCT2 and OpenLoco.'
+              depends: dotnet-runtime-7.0
       - uses: actions/upload-artifact@v4
         with:
-          name: artifact-deb
+          name: artifact-deb-rpm
           path: |
             ./*.deb
-      - uses: actions/upload-artifact@v4
-        with:
-          name: artifact-rpm
-          path: |
             ./*.rpm
             !./*-debuginfo-*.rpm  
             
