@@ -11,19 +11,19 @@ A launcher for automatically downloading the latest, or specific versions of [Op
 1. Download the .deb file from the [Releases page](https://github.com/IntelOrca/OpenLauncher/releases).
 2. Run this command as root in the location you've downloaded the .deb file to
    
-   ``` dpkg -i openlauncher-*.deb ```
+   ``` apt install -f openlauncher-*.deb ```
 ## Fedora
-1. Download the .rpm file from the [Releases page](https://github.com/IntelOrca/OpenLauncher/releases).
-2. Run this command as root in the location you've downloaded the .rpm file to
+1. Copy the link to the .rpm file from the [Releases page](https://github.com/IntelOrca/OpenLauncher/releases).
+2. Run this command as root
    
-   ``` rpm -U openlauncher-*.rpm ```
+   ``` yum localinstall <link_to_rpm> ```
    
 # 🔨 Building
 
 **Open Launcher** is written in C# using the [AvaloniaUI](http://avaloniaui.net) framework. The application currently targets [.NET 6](https://dotnet.microsoft.com) and is typically distributed as a self contained executable.
 
 ### Prerequisites
-* [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+* [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 * [Visual Studio](https://visualstudio.microsoft.com) (optional)
   * [AvaloniaUI extension](https://marketplace.visualstudio.com/items?itemName=AvaloniaTeam.AvaloniaVS) (optional)
 * [Visual Studio Code](https://code.visualstudio.com) (optional)
